@@ -28,7 +28,7 @@ public class HMenuDao implements MenuDAO {
      * throws               EmptyResultDataAccessException, DataAccessException
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public List<Menu> getAll() {
         return hDaoCriteriaQueries.getAllEntityItems(sessionFactory, Menu.class);
     }
@@ -38,7 +38,7 @@ public class HMenuDao implements MenuDAO {
      * @param menu      given menus
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public void add(Menu menu) {
         sessionFactory.getCurrentSession().save(menu);
     }
@@ -50,7 +50,7 @@ public class HMenuDao implements MenuDAO {
      * throws           EmptyResultDataAccessException, DataAccessException
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public Menu search(int id) {
         return hDaoCriteriaQueries.searchItemById(sessionFactory, Menu.class, id);
     }
@@ -62,7 +62,7 @@ public class HMenuDao implements MenuDAO {
      * throws            EmptyResultDataAccessException, DataAccessException
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public Menu search(String name) {
         return hDaoCriteriaQueries.searchItemByName(sessionFactory, Menu.class, name);
     }
@@ -73,7 +73,7 @@ public class HMenuDao implements MenuDAO {
      * throws               EmptyResultDataAccessException, DataAccessException
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public void delete(int id) {
         Menu menu = search(id);
         sessionFactory.getCurrentSession().delete(menu);
@@ -85,7 +85,7 @@ public class HMenuDao implements MenuDAO {
      * throws                EmptyResultDataAccessException, DataAccessException
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public void delete(String name) {
         Menu menu = search(name);
         sessionFactory.getCurrentSession().delete(menu);
@@ -98,7 +98,7 @@ public class HMenuDao implements MenuDAO {
      * throws               EmptyResultDataAccessException, DataAccessException
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public void addDish(Menu menu, Dish dish) {
         if (menu.getDishes().contains(dish)) {
             throw new IllegalArgumentException("Menu " + menu.getName() + " already contains dish " + dish.getName());
@@ -118,7 +118,7 @@ public class HMenuDao implements MenuDAO {
      * throws               EmptyResultDataAccessException, DataAccessException
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public void deleteDish(Menu menu, Dish dish) {
         Session session = sessionFactory.getCurrentSession();
         session.delete(menu);

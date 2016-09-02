@@ -32,12 +32,11 @@ public interface EmployeeDAO {
 
     /**
      * searches employee in DB by its full name (surname & name)
-     * @param name           name of employee to find
-     * @param surname        surname of employee to find
+     * @param name           name, surname of employee to find
      * @return name          found employee
      * throws                EmptyResultDataAccessException, DataAccessException
      */
-    Employee search(String name, String surname);
+    Employee search(String... name);
 
     /**
      * deletes employee from DB by its ID

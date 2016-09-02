@@ -61,15 +61,14 @@ public class HEmployeeDao implements EmployeeDAO {
 
     /**
      * searches employee in DB by its full name (surname & name)
-     * @param surname        surname of employee to find
-     * @param name           name of employee to find
+     * @param name           name, surname of employee to find
      * @return name          found employee
      * throws                EmptyResultDataAccessException, DataAccessException
      */
     @Override
     @Transactional
-    public Employee search(String name, String surname) {
-        return hDaoCriteriaQueries.searchItemByName(sessionFactory, Employee.class, name, surname);
+    public Employee search(String... name) {
+        return hDaoCriteriaQueries.searchItemByName(sessionFactory, Employee.class, name);
     }
 
     /**

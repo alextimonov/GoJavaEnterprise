@@ -97,12 +97,28 @@ public class JdbcEmployeeDAO implements EmployeeDAO {
 
     /**
      * searches employee in DB by its full name (surname & name)
-     * @param name           name of employee to find
-     * @param surname        surname of employee to find
+     * @param name           name, surname of employee to find
      * @return name          found employee
      * throws                EmptyResultDataAccessException, DataAccessException
      */
     @Override
+    @Transactional
+    public Employee search(String... name) {
+        if (name.length > 1)
+            return search(name[0], name[1]);
+        else
+            return searchByFirstName(name[0]);
+    }
+
+    @Transactional
+    private Employee searchByFirstName(String name) {
+        String sql = "SELECT Employee.id, Employee.surname, Employee.name, Jobs.position, Employee.birthday, Employee.salary " +
+                "FROM Employee INNER JOIN Jobs ON Employee.position_id = Jobs.id WHERE Employee.name = ?";
+        Map<String, Object> map = template.queryForMap(sql, name);
+        Employee employee = getEmployeeFromMap(map);
+        return employee;
+    }
+
     @Transactional
     public Employee search(String name, String surname) {
         String sql = "SELECT Employee.id, Employee.surname, Employee.name, Jobs.position, Employee.birthday, Employee.salary " +
