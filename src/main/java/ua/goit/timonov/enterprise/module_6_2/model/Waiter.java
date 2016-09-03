@@ -19,6 +19,15 @@ public class Waiter extends Employee {
     @Fetch(FetchMode.SELECT)
     private List<Order> orders;
 
+    public Waiter(Employee employee) {
+        id = employee.getId();
+        surname = employee.getSurname();
+        name = employee.getName();
+        birthday = employee.getBirthday();
+        salary = employee.getSalary();
+        job = employee.getJob();
+    }
+
     public List<Order> getOrders() {
         return orders;
     }

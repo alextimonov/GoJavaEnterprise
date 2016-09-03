@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ua.goit.timonov.enterprise.module_6_2.dao.EmployeeDAO;
 import ua.goit.timonov.enterprise.module_6_2.model.Employee;
+import ua.goit.timonov.enterprise.module_6_2.model.Waiter;
 
 import java.util.List;
 
@@ -94,5 +95,13 @@ public class HEmployeeDao implements EmployeeDAO {
     public void delete(String name, String surname) {
         Employee employee = search(name, surname);
         sessionFactory.getCurrentSession().remove(employee);
+    }
+
+    @Override
+    @Transactional
+    public List<Waiter> getWaiters() {
+        HDaoCriteriaQueries<Waiter> hDaoCriteriaQueries = new HDaoCriteriaQueries();
+        List<Waiter> waiters = hDaoCriteriaQueries.getAllEntityItems(sessionFactory, Waiter.class);
+        return waiters;
     }
 }

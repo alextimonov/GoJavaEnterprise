@@ -4,21 +4,21 @@
 
 <html>
 <head>
-    <title>My Restaurant|Employees</title>
+    <title>My Restaurant|Our personal</title>
 </head>
 <body>
-<h3>Our personal</h3>
+<h3>Our waiters:</h3>
 <table style="align-items: center" border="1">
     <tr>
         <th> First name </th>
-        <th> Last name </th>
         <th> Position </th>
+        <th> Photo </th>
     </tr>
-    <c:forEach var="employee" items="${employees}">
+    <c:forEach var="employee" items="${waiters}">
         <tr>
             <td> <a href="${path}/employee/${employee.name}"> ${employee.name} </a> </td>
-            <td> ${employee.surname} </td>
             <td> ${employee.job.position} </td>
+            <td> <img src="${pageContext.request.contextPath}/images/photo_${employee.id}.jpg" /></td>
         </tr>
     </c:forEach>
 

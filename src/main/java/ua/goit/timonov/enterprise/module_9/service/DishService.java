@@ -3,11 +3,12 @@ package ua.goit.timonov.enterprise.module_9.service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.goit.timonov.enterprise.module_6_2.dao.DishDAO;
 import ua.goit.timonov.enterprise.module_6_2.model.Dish;
+import ua.goit.timonov.enterprise.module_6_2.model.Ingredient;
 
 import java.util.List;
 
 /**
- * Created by Alex on 01.09.2016.
+ * Service for DishDAO
  */
 public class DishService {
 
@@ -28,6 +29,16 @@ public class DishService {
 
     @Transactional
     public Dish getDishByName(String dishName) {
+        return dishDAO.search(dishName);
+    }
+
+    @Transactional
+    public List<Ingredient> getIngredientsByDish(Dish dish) {
+        return dishDAO.defineDishIngredients(dish);
+    }
+
+    @Transactional
+    public Dish searchDishByName(String dishName) {
         return dishDAO.search(dishName);
     }
 }

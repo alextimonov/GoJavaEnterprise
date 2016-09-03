@@ -16,7 +16,7 @@
 
     <servlet-mapping>
         <servlet-name> Dispatcher </servlet-name>
-        <url-pattern> /  </url-pattern>
+        <url-pattern> /Restaurant/* </url-pattern>
     </servlet-mapping>
 
     <listener>

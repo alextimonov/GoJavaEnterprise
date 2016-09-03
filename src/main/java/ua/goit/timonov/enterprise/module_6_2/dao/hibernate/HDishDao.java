@@ -6,8 +6,12 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ua.goit.timonov.enterprise.module_6_2.dao.DishDAO;
 import ua.goit.timonov.enterprise.module_6_2.model.Dish;
+import ua.goit.timonov.enterprise.module_6_2.model.Ingredient;
+import ua.goit.timonov.enterprise.module_6_2.model.IngredientsInDish;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Hibernate implementation of DishDAO
@@ -84,5 +88,13 @@ public class HDishDao implements DishDAO {
     public void delete(String name) {
         Dish dish = search(name);
         sessionFactory.getCurrentSession().delete(dish);
+    }
+
+    @Transactional
+    public List<Ingredient> defineDishIngredients(Dish dish) {
+        HDaoCriteriaQueries<IngredientsInDish> hDaoCriteriaQueries = new HDaoCriteriaQueries();
+        List<IngredientsInDish> ingredientsInDishes =
+                hDaoCriteriaQueries.searchItemsByValue(sessionFactory, IngredientsInDish.class, "dish", dish);
+        return ingredientsInDishes.stream().map(IngredientsInDish::getIngredient).collect(Collectors.toList());
     }
 }

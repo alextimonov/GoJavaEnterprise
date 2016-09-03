@@ -11,7 +11,7 @@ import ua.goit.timonov.enterprise.module_9.service.MenuService;
 import java.util.Map;
 
 /**
- * Created by Alex on 01.09.2016.
+ * Controller for mapping requests to Menu pages
  */
 
 @Controller
@@ -36,6 +36,13 @@ public class MenuWebController {
         modelAndView.addObject("menu", menuService.getMenuByName(menuName));
         modelAndView.setViewName("menu");
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/scheme", method = RequestMethod.GET)
+    public String invokeSchemePage(Map<String, Object> model) {
+        Object file = "";
+        model.put("scheme", file);
+        return "scheme";
     }
 
 }

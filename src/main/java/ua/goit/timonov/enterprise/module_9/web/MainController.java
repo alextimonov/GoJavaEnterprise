@@ -6,26 +6,28 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Date;
 import java.util.Map;
-import java.util.logging.Logger;
 
 /**
- * Created by Alex on 01.09.2016.
+ * Main Spring MVC controller for mapping pages main, index, contacts
  */
 
 @Controller
 public class MainController {
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(Map<String, Object> model) {
         model.put("currentTime", new Date().toString());
-        System.out.println("In main controller 1");
         return "index";
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String indexPost(Map<String, Object> model) {
-        model.put("currentTime", new Date().toString());
-        return "index";
+    @RequestMapping(value = "/main", method = RequestMethod.GET)
+    public String getMainPage() {
+        return "main";
+    }
+
+    @RequestMapping(value = "/contacts", method = RequestMethod.GET)
+    public String getPageContacts() {
+        return "contacts";
     }
 
 }

@@ -1,6 +1,7 @@
 package ua.goit.timonov.enterprise.module_6_2.dao;
 
 import ua.goit.timonov.enterprise.module_6_2.model.Employee;
+import ua.goit.timonov.enterprise.module_6_2.model.Waiter;
 
 import java.util.List;
 
@@ -53,4 +54,5 @@ public interface EmployeeDAO {
      */
     void delete(String name, String surname);
 
+    List<Waiter> getWaiters();
 }

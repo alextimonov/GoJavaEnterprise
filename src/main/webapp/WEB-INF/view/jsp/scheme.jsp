@@ -4,26 +4,16 @@
 
 <html>
 <head>
-    <title>My Restaurant|Employees</title>
+    <title> My Restaurant </title>
 </head>
 <body>
-<h3>Our personal</h3>
-<table style="align-items: center" border="1">
-    <tr>
-        <th> First name </th>
-        <th> Last name </th>
-        <th> Position </th>
-    </tr>
-    <c:forEach var="employee" items="${employees}">
-        <tr>
-            <td> <a href="${path}/employee/${employee.name}"> ${employee.name} </a> </td>
-            <td> ${employee.surname} </td>
-            <td> ${employee.job.position} </td>
-        </tr>
-    </c:forEach>
+<h2>Restaurant Bastion</h2>
+<h3>We make your free time unforgettable</h3>
+<h4>Kyiv, Blvd. Buchmy, 10</h4>
+<h4>Tel. 123-45-67, E-mail:bastion@bastion.kiev.ua</h4>
+<h3>Restaurant scheme</h3>
+<img src="${pageContext.request.contextPath}/images/scheme.jpg" />
 
-</table>
-<br>
 <br>
 <a href="${path}/main">Main page</a> |
 <a href="${path}/menus">Our menus</a> |

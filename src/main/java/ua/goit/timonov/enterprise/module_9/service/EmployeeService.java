@@ -3,11 +3,12 @@ package ua.goit.timonov.enterprise.module_9.service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.goit.timonov.enterprise.module_6_2.dao.EmployeeDAO;
 import ua.goit.timonov.enterprise.module_6_2.model.Employee;
+import ua.goit.timonov.enterprise.module_6_2.model.Waiter;
 
 import java.util.List;
 
 /**
- * Created by Alex on 01.09.2016.
+ * Service for EmployeeDAO
  */
 public class EmployeeService {
 
@@ -25,5 +26,11 @@ public class EmployeeService {
     @Transactional
     public Employee getEmployeeByName(String name) {
         return employeeDAO.search(name);
+    }
+
+    @Transactional
+    public List<Waiter> getWaiters() {
+        List<Waiter> waiters = employeeDAO.getWaiters();
+        return waiters;
     }
 }

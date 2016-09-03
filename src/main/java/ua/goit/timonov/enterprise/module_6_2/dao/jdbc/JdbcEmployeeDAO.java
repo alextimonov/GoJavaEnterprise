@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.goit.timonov.enterprise.module_6_2.model.Employee;
 import ua.goit.timonov.enterprise.module_6_2.dao.EmployeeDAO;
 import ua.goit.timonov.enterprise.module_6_2.model.Job;
+import ua.goit.timonov.enterprise.module_6_2.model.Waiter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -77,6 +78,20 @@ public class JdbcEmployeeDAO implements EmployeeDAO {
             search(name, surname);
             String sql = "DELETE FROM Employee WHERE name = ? AND surname = ?";
             template.update(sql, name, surname);
+    }
+
+    @Override
+    public List<Waiter> getWaiters() {
+        List<Waiter> result = new ArrayList<>();
+        String sql = "SELECT Employee.id, Employee.surname, Employee.name, Jobs.position, Employee.birthday, Employee.salary\n" +
+                "FROM Employee INNER JOIN Jobs ON Employee.position_id = Jobs.id WHERE Employee.dtype = 'WAITER'";
+        List<Map<String, Object>> mapList = template.queryForList(sql);
+        for (Map<String, Object> row : mapList) {
+            Employee employee = getEmployeeFromMap(row);
+            Waiter waiter = new Waiter(employee);
+            result.add(waiter);
+        }
+        return result;
     }
 
     /**

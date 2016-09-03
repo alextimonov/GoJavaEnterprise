@@ -7,7 +7,7 @@ import ua.goit.timonov.enterprise.module_6_2.model.Menu;
 import java.util.List;
 
 /**
- * Created by Alex on 01.09.2016.
+ * Service for MenuDAO
  */
 public class MenuService {
 

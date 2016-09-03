@@ -4,26 +4,18 @@
 
 <html>
 <head>
-    <title>My Restaurant|Employees</title>
+    <title>My Restaurant|Item is not found</title>
 </head>
-<body>
-<h3>Our personal</h3>
-<table style="align-items: center" border="1">
-    <tr>
-        <th> First name </th>
-        <th> Last name </th>
-        <th> Position </th>
-    </tr>
-    <c:forEach var="employee" items="${employees}">
-        <tr>
-            <td> <a href="${path}/employee/${employee.name}"> ${employee.name} </a> </td>
-            <td> ${employee.surname} </td>
-            <td> ${employee.job.position} </td>
-        </tr>
-    </c:forEach>
 
-</table>
+<body>
+
 <br>
+<h3>Sorry! Item with name "${itemName}" is not found!</h3>
+
+<br>
+<img src="${pageContext.request.contextPath}/images/error.jpg" />
+<br>
+<h3>Try to search another item</h3>
 <br>
 <a href="${path}/main">Main page</a> |
 <a href="${path}/menus">Our menus</a> |

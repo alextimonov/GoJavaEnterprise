@@ -11,9 +11,8 @@ import ua.goit.timonov.enterprise.module_9.service.EmployeeService;
 import java.util.Map;
 
 /**
- * Created by Alex on 01.09.2016.
+ * Controller for mapping requests to Dish pages
  */
-
 @Controller
 public class EmployeeWebController {
 
@@ -37,5 +36,12 @@ public class EmployeeWebController {
         modelAndView.setViewName("employee");
         return modelAndView;
     }
+
+    @RequestMapping(value = "/waiters", method = RequestMethod.GET)
+    public String waiters(Map<String, Object> model) {
+        model.put("waiters", employeeService.getWaiters());
+        return "waiters";
+    }
+
 
 }
