@@ -10,7 +10,7 @@
         <!--<module>AppCalc</module>-->
         <!--<module>ToDoList</module>-->
     </modules>
-    <packaging> war </packaging>
+    <packaging>war</packaging>
 
     <name>GoITEnterprise</name>
     <url>http://maven.apache.org</url>
@@ -18,30 +18,31 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <junitVersion> 4.12 </junitVersion>
-        <commonsLangVersion> 3.4 </commonsLangVersion>
-        <postgresqlVersion> 9.1-901-1.jdbc4 </postgresqlVersion>
-        <slf4jVersion> 1.7.21 </slf4jVersion>
-        <logbackVersion> 1.1.7 </logbackVersion>
-        <c3p0Version> 0.9.5.2 </c3p0Version>
-        <springVersion> 4.3.1.RELEASE </springVersion>
-        <javaVersion> 1.8 </javaVersion>
-        <hiberVersion> 5.2.1.Final </hiberVersion>
-        <ehcasheVersion> 2.10.2 </ehcasheVersion>
-        <jstlVersion> 1.2 </jstlVersion>
+        <junitVersion>4.12</junitVersion>
+        <commonsLangVersion>3.4</commonsLangVersion>
+        <postgresqlVersion>9.1-901-1.jdbc4</postgresqlVersion>
+        <slf4jVersion>1.7.21</slf4jVersion>
+        <logbackVersion>1.1.7</logbackVersion>
+        <c3p0Version>0.9.5.2</c3p0Version>
+        <springVersion>4.3.1.RELEASE</springVersion>
+        <javaVersion>1.8</javaVersion>
+        <hiberVersion>5.2.1.Final</hiberVersion>
+        <ehcasheVersion>2.10.2</ehcasheVersion>
+        <jstlVersion>1.2</jstlVersion>
+        <jacksonVersion>2.8.2</jacksonVersion>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version> ${junitVersion} </version>
+            <version>${junitVersion}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version> ${commonsLangVersion} </version>
+            <version>${commonsLangVersion}</version>
         </dependency>
 
 
@@ -133,7 +134,6 @@
             <version>${springVersion}</version>
         </dependency>
 
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
@@ -147,6 +147,12 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jacksonVersion}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -155,13 +161,13 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source> ${javaVersion} </source>
-                    <target> ${javaVersion} </target>
+                    <source>${javaVersion}</source>
+                    <target>${javaVersion}</target>
                 </configuration>
             </plugin>
 
             <plugin>
-                <artifactId> maven-war-plugin </artifactId>
+                <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <archive>
                         <manifest>

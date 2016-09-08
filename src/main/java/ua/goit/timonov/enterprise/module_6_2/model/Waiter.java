@@ -1,8 +1,5 @@
 package ua.goit.timonov.enterprise.module_6_2.model;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -16,8 +13,11 @@ import java.util.List;
 public class Waiter extends Employee {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "waiter")
-    @Fetch(FetchMode.SELECT)
+//    @Fetch(FetchMode.JOIN)
     private List<Order> orders;
+
+    public Waiter() {
+    }
 
     public Waiter(Employee employee) {
         id = employee.getId();
@@ -26,6 +26,15 @@ public class Waiter extends Employee {
         birthday = employee.getBirthday();
         salary = employee.getSalary();
         job = employee.getJob();
+    }
+
+    public Employee getEmployee() {
+        Employee employee = new Employee();
+        employee.append(this.birthday);
+        employee.append(this.name, this.surname);
+        employee.append(this.salary);
+        employee.append(this.job);
+        return employee;
     }
 
     public List<Order> getOrders() {

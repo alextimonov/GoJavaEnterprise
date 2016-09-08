@@ -179,6 +179,19 @@ public class JdbcOrderDAO implements OrderDAO {
         return result;
     }
 
+    @Override
+    public List<Order> getAllOrders() {
+        String sql = "SELECT * FROM Orders";
+        List<Map<String, Object>> mapList = template.queryForList(sql);
+
+        List<Order> result = new ArrayList<>();
+        for (Map<String, Object> row : mapList) {
+            Order order = getOrderFromMap(row);
+            result.add(order);
+        }
+        return result;
+    }
+
     private Order getOrderFromMap(Map<String, Object> map) {
         Order order = new Order();
         order.setId((Integer) map.get("id"));

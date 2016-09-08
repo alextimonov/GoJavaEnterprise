@@ -56,11 +56,16 @@ public class HDaoCriteriaQueries<T> {
         CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(clazz);
         Root<T> from = criteriaQuery.from(clazz);
         CriteriaQuery<T> select = criteriaQuery.select(from);
-        Predicate predicateName = criteriaBuilder.like(from.get("name"), name[0]);
-        if (name.length > 1)
-            select.where(predicateName, criteriaBuilder.like(from.get("surname"), name[1]));
-        else
-            select.where(predicateName);
+        if (name[0] != "") {
+            Predicate predicateName = criteriaBuilder.like(from.get("name"), name[0]);
+            if (name.length > 1)
+                select.where(predicateName, criteriaBuilder.like(from.get("surname"), name[1]));
+            else
+                select.where(predicateName);
+        }
+        else {
+            select.where(criteriaBuilder.like(from.get("surname"), name[1]));
+        }
         TypedQuery<T> typedQuery = session.createQuery(select);
         return typedQuery.getResultList().get(0);
     }

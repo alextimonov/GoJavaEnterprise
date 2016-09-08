@@ -5,9 +5,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import ua.goit.timonov.enterprise.module_6_2.model.Menu;
 import ua.goit.timonov.enterprise.module_9.service.MenuService;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,4 +49,32 @@ public class MenuWebController {
         return "scheme";
     }
 
+    @RequestMapping(value = "/restMenus", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Menu> restMenus() {
+        List<Menu> menusFromDb = menuService.getAllMenus();
+        // TODO search another solution
+        List<Menu> restMenus = new ArrayList<>();
+        for (Menu menuFromDb : menusFromDb) {
+            Menu menu = new Menu();
+            menu.setId(menuFromDb.getId());
+            menu.setName(menuFromDb.getName());
+            restMenus.add(menu);
+        }
+        return restMenus;
+    }
+
+    @RequestMapping(value = "/restMenus/{menuName}", method = RequestMethod.GET)
+    @ResponseBody
+    public Menu getMenuByName(@PathVariable String menuName) {
+        try {
+            int menuId = Integer.valueOf(menuName);
+            Menu menu = menuService.getMenuById(menuId);
+            return menu;
+        }
+        catch(NumberFormatException e) {
+            Menu menu = menuService.getMenuByName(menuName);
+            return menu;
+        }
+    }
 }

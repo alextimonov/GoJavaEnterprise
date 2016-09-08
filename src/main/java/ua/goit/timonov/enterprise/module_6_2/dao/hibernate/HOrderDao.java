@@ -2,7 +2,6 @@ package ua.goit.timonov.enterprise.module_6_2.dao.hibernate;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ua.goit.timonov.enterprise.module_6_2.dao.OrderDAO;
 import ua.goit.timonov.enterprise.module_6_2.model.Dish;
@@ -29,7 +28,7 @@ public class HOrderDao implements OrderDAO {
      * throws           EmptyResultDataAccessException, DataAccessException
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public List<Order> getOpenOrders() {
         return hDaoCriteriaQueries.getAllTypedOrders(sessionFactory, Order.class, false);
     }
@@ -40,9 +39,20 @@ public class HOrderDao implements OrderDAO {
      * throws           EmptyResultDataAccessException, DataAccessException
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public List<Order> getClosedOrders() {
         return hDaoCriteriaQueries.getAllTypedOrders(sessionFactory, Order.class, true);
+    }
+
+    /**
+     * finds list of all orders in DB
+     * @return          list of all orders
+     * throws           EmptyResultDataAccessException, DataAccessException
+     */
+    @Override
+    @Transactional
+    public List<Order> getAllOrders() {
+        return hDaoCriteriaQueries.getAllEntityItems(sessionFactory, Order.class);
     }
 
     /**
@@ -50,7 +60,7 @@ public class HOrderDao implements OrderDAO {
      * @param order      given order
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public void add(Order order) {
         Session session = sessionFactory.getCurrentSession();
         session.save(order);
@@ -63,7 +73,7 @@ public class HOrderDao implements OrderDAO {
      * throws           EmptyResultDataAccessException, DataAccessException
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public Order search(Integer orderId) {
         return hDaoCriteriaQueries.searchItemById(sessionFactory, Order.class, orderId);
     }
@@ -74,7 +84,7 @@ public class HOrderDao implements OrderDAO {
      * throws                   EmptyResultDataAccessException, DataAccessException
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public void delete(int orderId) {
         if (orderIsClosed(orderId)) {
             throw new IllegalArgumentException("Order is not open");
@@ -84,7 +94,7 @@ public class HOrderDao implements OrderDAO {
     }
 
     // returns true if order (given by its ID) is open
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     boolean orderIsClosed(int orderId) {
         Order order = hDaoCriteriaQueries.searchItemById(sessionFactory, Order.class, orderId);
         return order.getClosed();
@@ -97,7 +107,7 @@ public class HOrderDao implements OrderDAO {
      * throws               EmptyResultDataAccessException, DataAccessException
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public void addDish(int orderId, Dish dish) {
         if (orderIsClosed(orderId)) {
             throw new IllegalArgumentException("Order is not open");
@@ -117,7 +127,7 @@ public class HOrderDao implements OrderDAO {
      * throws               EmptyResultDataAccessException, DataAccessException
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public void deleteDish(int orderId, Dish dish) {
         if (orderIsClosed(orderId)) {
             throw new IllegalArgumentException("Order is not open");
@@ -137,7 +147,7 @@ public class HOrderDao implements OrderDAO {
      * @param orderId
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public void setClosed(int orderId) {
         if (orderIsClosed(orderId)) {
             throw new IllegalArgumentException("Order is not open");
