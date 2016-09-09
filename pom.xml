@@ -6,11 +6,11 @@
     <artifactId>GoITEnterprise</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>CalcLib</module>
-        <module>AppCalc</module>
-        <module>ToDoList</module>
+        <!--<module>CalcLib</module>-->
+        <!--<module>AppCalc</module>-->
+        <!--<module>ToDoList</module>-->
     </modules>
-    <packaging>pom</packaging>
+    <packaging> war </packaging>
 
     <name>GoITEnterprise</name>
     <url>http://maven.apache.org</url>
@@ -26,6 +26,9 @@
         <c3p0Version> 0.9.5.2 </c3p0Version>
         <springVersion> 4.3.1.RELEASE </springVersion>
         <javaVersion> 1.8 </javaVersion>
+        <hiberVersion> 5.2.1.Final </hiberVersion>
+        <ehcasheVersion> 2.10.2 </ehcasheVersion>
+        <jstlVersion> 1.2 </jstlVersion>
     </properties>
 
     <dependencies>
@@ -87,6 +90,63 @@
             <version> ${springVersion} </version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${springVersion}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hiberVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>1.0.0.Final</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>${ehcasheVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-ehcache</artifactId>
+            <version>${hiberVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${springVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${springVersion}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${springVersion}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>${jstlVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -97,6 +157,16 @@
                 <configuration>
                     <source> ${javaVersion} </source>
                     <target> ${javaVersion} </target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId> maven-war-plugin </artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>
