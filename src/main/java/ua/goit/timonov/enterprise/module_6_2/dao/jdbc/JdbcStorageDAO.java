@@ -64,8 +64,8 @@ public class JdbcStorageDAO implements StorageDAO {
     }
 
     /**
-     * searches ingredient in DB by name
-     * @param name       name of ingredient to find
+     * searches ingredient in DB by startChars
+     * @param name       startChars of ingredient to find
      * @return           found ingredient
      * throws            EmptyResultDataAccessException, DataAccessException
      */
@@ -92,8 +92,8 @@ public class JdbcStorageDAO implements StorageDAO {
     }
 
     /**
-     * deletes ingredient from DB by its name
-     * @param name           name of ingredient to delete
+     * deletes ingredient from DB by its startChars
+     * @param name           startChars of ingredient to delete
      * throws                EmptyResultDataAccessException, DataAccessException
      */
     @Override
@@ -141,5 +141,26 @@ public class JdbcStorageDAO implements StorageDAO {
         return mapList.stream()
                 .map(row -> getIngredientFromMap(row))
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * updates ingredient's data in DB
+     * @param ingredient      given ingredient with data
+     */
+    @Override
+    @Transactional
+    public void update(Ingredient ingredient) {
+        String sql = "UPDATE ingredient SET name = ?, amount = ? WHERE id = ?";
+        template.update(sql, ingredient.getName(), ingredient.getAmount(), ingredient.getId());
+    }
+
+    @Override
+    public List<Ingredient> filterWithStartChars(String startChars) {
+        String sql = "SELECT * FROM Ingredient WHERE name LIKE ?";
+        List<Map<String, Object>> mapList = template.queryForList(sql, startChars + "%");
+        return mapList.stream()
+                .map(row -> getIngredientFromMap(row))
+                .collect(Collectors.toList());
+
     }
 }

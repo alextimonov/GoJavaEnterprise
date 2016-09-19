@@ -89,6 +89,13 @@ public class JdbcEmployeeDAO implements EmployeeDAO {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void update(Employee employee) {
+        String sql = "UPDATE Employee SET name = ?, surname = ?, jobs.position = ?, birthday = ?, salary = ? WHERE id = ?";
+        template.update(sql, employee.getName(), employee.getSurname(), employee.getJob().getPosition(),
+                employee.getBirthday(), employee.getSalary(), employee.getId());
+    }
+
     /**
      * searches employee in DB by its ID
      * @param id        employee's ID to find

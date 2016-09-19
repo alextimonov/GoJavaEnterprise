@@ -96,11 +96,26 @@ public class HibernateEmployeeDao implements EmployeeDAO {
         sessionFactory.getCurrentSession().remove(employee);
     }
 
+    /**
+     * returns list of waiters
+     * @return      list of waiters
+     */
     @Override
     @Transactional
     public List<Waiter> getWaiters() {
         JpaCriteriaQueries<Waiter> hDaoCriteriaQueries = new JpaCriteriaQueries();
         List<Waiter> waiters = hDaoCriteriaQueries.getAllEntityItems(sessionFactory, Waiter.class);
         return waiters;
+    }
+
+    /**
+     * updates employee's data in DB
+     * @param employee      given employee with data
+     */
+    @Override
+    @Transactional
+    public void update(Employee employee) {
+        Session session = sessionFactory.getCurrentSession();
+        session.update("Employee", employee);
     }
 }

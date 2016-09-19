@@ -1,22 +1,45 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<c:set var="path" value="${pageContext.request.contextPath}/Restaurant"/>
+<c:set var="pathService" value="${pageContext.request.contextPath}/Restaurant/service"/>
 
 <html>
 <head>
-    <title>My Restaurant </title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bastion|Service pages</title>
 </head>
 <body>
-<h2>Restaurant Bastion. Service page</h2>
-<h3>Current time: ${currentTime}</h3>
-<br>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="${pathService}/../main">Bastion</a>
+            <a class="navbar-brand" href="${pathService}"> Service page</a>
+            <a class="navbar-brand" href="${pathService}/employee/employees">Personal</a>
+            <a class="navbar-brand" href="${pathService}/menu/menus">Menus</a>
+            <a class="navbar-brand" href="${pathService}/dish/dishes">Dishes</a>
+            <a class="navbar-brand" href="${pathService}/storage/ingredients">Storage</a>
+            <a class="navbar-brand" href="${pathService}/order/orders">Orders</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <h1>Restaurant Bastion<small> Service pages</small></h1>
+    <h3>Current time: ${currentTime}</h3>
+</div>
 <img src="${pageContext.request.contextPath}/images/photo_inside.jpg" />
-<br>
-<a href="${path}/service">Service page</a> |
-<a href="${path}/service/employees">Staff</a> |
-<a href="${path}/service/menus">Menus</a> |
-<a href="${path}/service/dishes">Dishes</a> |
-<a href="${path}/service/storage">Storage</a> |
-<a href="${path}/service/orders">Orders history</a>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="${pathService}/../main">Bastion</a>
+            <a class="navbar-brand" href="${pathService}"> Service page</a>
+            <a class="navbar-brand" href="${pathService}/employee/employees">Personal</a>
+            <a class="navbar-brand" href="${pathService}/menu/menus">Menus</a>
+            <a class="navbar-brand" href="${pathService}/dish/dishes">Dishes</a>
+            <a class="navbar-brand" href="${pathService}/storage/ingredients">Storage</a>
+            <a class="navbar-brand" href="${pathService}/order/orders">Orders</a>
+        </div>
+    </div>
+</nav>
 </body>
 </html>

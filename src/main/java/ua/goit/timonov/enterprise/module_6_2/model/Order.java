@@ -51,6 +51,8 @@ public class Order {
     @JsonIgnore
     private List<Dish> dishes;
 
+//    private int nDishes;
+
     public Order() {
     }
 
