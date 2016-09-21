@@ -14,103 +14,132 @@
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="${pathService}/../main">Bastion</a>
-            <a class="navbar-brand" href="${pathService}">Service pages</a>
-            <a class="navbar-brand" href="${pathService}/employee/employees">Personal</a>
-            <a class="navbar-brand" href="${pathService}/menu/menus">Menus</a>
-            <a class="navbar-brand" href="${pathService}/dish/dishes">Dishes</a>
-            <a class="navbar-brand" href="${pathService}/storage/ingredients">Storage</a>
-            <a class="navbar-brand" href="${pathService}/order/orders">Orders</a>
+            <a class="navbar-brand" href="${pathService}/../main">Restaurant Bastion</a>
         </div>
+        <ul class="nav navbar-nav">
+            <li><a href="${pathService}/service">Service page</a></li>
+            <li><a href="${pathService}/employee/employees">Personal</a></li>
+            <li><a href="${pathService}/menu/menus">Menus</a></li>
+            <li class="active"><a href="${pathService}/dish/dishes">Dishes</a></li>
+            <li><a href="${pathService}/storage/ingredients">Storage</a></li>
+            <li><a href="${pathService}/order/orders">Orders</a></li>
+        </ul>
     </div>
 </nav>
 
 <div class="container">
     <h2>Dishes<small> Service page</small> !!!TODO: add edit ingredients!!!</h2>
-</div>
-<table class="table table-striped">
-    <c:url var="addUrl" value="${pathDish}/add" />
-    <tr>
-        <th>ID</th>
-        <th>Dish name</th>
-        <th>Description</th>
-        <th>Cost</th>
-        <th>Weight</th>
-        <th>Edit</th>
-        <th>Delete</th>
-        <th>Add dish</th>
-    </tr>
-    <c:forEach var="dish" items="${dishes}">
-        <c:url var="editUrl" value="${pathDish}/edit?id=${dish.id}" />
-        <c:url var="deleteUrl" value="${pathDish}/delete?id=${dish.id}" />
+
+    <table class="table table-striped">
+        <c:url var="addUrl" value="${pathDish}/add" />
         <tr>
-            <td> ${dish.id} </td>
-            <td> ${dish.name} </td>
-            <td> ${dish.description} </td>
-            <td> ${dish.cost} </td>
-            <td> ${dish.weight} </td>
-            <td><a href="${editUrl}">Edit</a></td>
-            <td><a href="${deleteUrl}">Delete</a></td>
-            <td><a href="${addUrl}">Add</a></td>
+            <th>ID</th>
+            <th>Dish name</th>
+            <th>Description</th>
+            <th>Cost</th>
+            <th>Weight</th>
+            <th>Edit</th>
+            <th>Delete</th>
+            <th>Add dish</th>
         </tr>
-    </c:forEach>
+        <c:forEach var="dish" items="${dishes}">
+            <c:url var="editUrl" value="${pathDish}/edit?id=${dish.id}" />
+            <c:url var="deleteUrl" value="${pathDish}/delete?id=${dish.id}" />
+            <tr>
+                <td>${dish.id}</td>
+                <td>${dish.name}</td>
+                <td>${dish.description}</td>
+                <td>${dish.cost}</td>
+                <td>${dish.weight}</td>
+                <td><a href="${editUrl}">Edit</a></td>
+                <td><a href="${deleteUrl}">Delete</a></td>
+                <td><a href="${addUrl}">Add</a></td>
+            </tr>
+        </c:forEach>
+    </table>
 
-</table>
-
-<table class="table table-striped">
-    <tr>
-        <form action="${pathDish}/add" method="GET">
-            <td>Add</td>
-            <td></td>
-            <td><input type="submit" value="Add new dish"></td>
-        </form>
-    </tr>
-
-    <tr>
-        <form action="${pathDish}/edit" method="GET">
-            <td>Edit. Input dish's ID:</td>
-            <td><input type="number" name="id"></td>
-            <td><input type="submit" value="Edit by id" ></td>
-        </form>
-    </tr>
-
-    <tr>
-    <form action="${pathDish}/editByName" method="GET">
-        <td>Edit. Input dish's name:</td>
-        <td><input type="text" name="name"></td>
-        <td><input type="submit" value="Edit by name" ></td>
+    <form class="form-horizontal" action="${pathDish}/add" method="GET">
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label class="control-label">Add new dish</label>
+            </div>
+            <div class="col-sm-4"></div>
+            <div class="col-sm-5">
+                <button class="btn btn-primary" type="submit">Add new dish</button>
+            </div>
+        </div>
     </form>
-    </tr>
 
-    <tr>
-        <form action="${pathDish}/delete" method="GET">
-            <td>Delete. Input dish's ID:</td>
-            <td><input type="number" name="id"></td>
-            <td><input type="submit" value="Delete by id"></td>
-        </form>
-    </tr>
-
-    <tr>
-    <form action="${pathDish}/deleteByName" method="GET">
-        <td>Delete. Input dish's name:</td>
-        <td><input type="text" name="name"></td>
-        <td><input type="submit" value="Delete by name" ></td>
+    <form class="form-horizontal" action="${pathDish}/edit" method="GET">
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label class="control-label">Edit. Input dish's ID:</label>
+            </div>
+            <div class="col-sm-4">
+                <input class="form-control" type="number" name="id" title="id">
+            </div>
+            <div class="col-sm-5">
+                <button class="btn btn-primary" type="submit">Edit by id</button>
+            </div>
+        </div>
     </form>
-    </tr>
 
-</table>
+    <form class="form-horizontal" action="${pathDish}/editByName" method="GET">
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label class="control-label">Edit. Input dish's name:</label>
+            </div>
+            <div class="col-sm-4">
+                <input class="form-control" type="text" name="name" title="name">
+            </div>
+            <div class="col-sm-5">
+                <button class="btn btn-primary" type="submit">Edit by name</button>
+            </div>
+        </div>
+    </form>
+
+    <form class="form-horizontal" action="${pathDish}/delete" method="GET">
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label class="control-label">Delete. Input dish's ID:</label>
+            </div>
+            <div class="col-sm-4">
+                <input class="form-control" type="number" name="id" title="id">
+            </div>
+            <div class="col-sm-5">
+                <button class="btn btn-primary" type="submit">Delete by id</button>
+            </div>
+        </div>
+    </form>
+
+    <form class="form-horizontal" action="${pathDish}/deleteByName" method="GET">
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label class="control-label">Delete. Input dish's name:</label>
+            </div>
+            <div class="col-sm-4">
+                <input class="form-control" type="text" name="name" title="name">
+            </div>
+            <div class="col-sm-5">
+                <button class="btn btn-primary" type="submit">Delete by name</button>
+            </div>
+        </div>
+    </form>
+</div>
 
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="${pathService}/../main">Bastion</a>
-            <a class="navbar-brand" href="${pathService}">Service pages</a>
-            <a class="navbar-brand" href="${pathService}/employee/employees">Personal</a>
-            <a class="navbar-brand" href="${pathService}/menu/menus">Menus</a>
-            <a class="navbar-brand" href="${pathService}/dish/dishes">Dishes</a>
-            <a class="navbar-brand" href="${pathService}/storage/ingredients">Storage</a>
-            <a class="navbar-brand" href="${pathService}/order/orders">Orders</a>
+            <a class="navbar-brand" href="${pathService}/../main">Restaurant Bastion</a>
         </div>
+        <ul class="nav navbar-nav">
+            <li><a href="${pathService}/service">Service page</a></li>
+            <li><a href="${pathService}/employee/employees">Personal</a></li>
+            <li><a href="${pathService}/menu/menus">Menus</a></li>
+            <li class="active"><a href="${pathService}/dish/dishes">Dishes</a></li>
+            <li><a href="${pathService}/storage/ingredients">Storage</a></li>
+            <li><a href="${pathService}/order/orders">Orders</a></li>
+        </ul>
     </div>
 </nav>
 

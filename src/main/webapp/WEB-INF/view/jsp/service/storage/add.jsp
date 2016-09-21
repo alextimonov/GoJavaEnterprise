@@ -4,28 +4,43 @@
 <c:set var="pathStorage" value="${pageContext.request.contextPath}/Restaurant/service/storage"/>
 <html>
 <head>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bastion|Service|Add new ingredient</title>
 </head>
 <body>
 
-<h2>Create new ingredient</h2>
-<c:url var="saveUrl" value="${pathStorage}/add" />
+<div class="container">
+    <h2>Create new ingredient</h2>
+    <c:url var="saveUrl" value="${pathStorage}/add" />
 
-<form:form modelAttribute="ingredient" method="POST" action="${saveUrl}">
-    <table>
-        <tr>
-            <td><form:label path="name">Ingredient name:</form:label></td>
-            <td><form:input path="Name"/></td>
-        </tr>
+    <form:form class="form-horizontal" modelAttribute="ingredient" method="POST" action="${saveUrl}">
 
-        <tr>
-            <td><form:label path="amount">Amount:</form:label></td>
-            <td><form:input path="Amount"/></td>
-        </tr>
-    </table>
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label class="control-label" for="name">Ingredient name:</label>
+            </div>
+            <div class="col-sm-4">
+                <form:input class="form-control" path="name" type="text"/>
+            </div>
+            <div class="col-sm-5">
+                <label class="label-warning">${itemValidate.nameLabel}</label>
+            </div>
+        </div>
 
-    <input type="submit" value="Save" />
-</form:form>
-
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label class="control-label" for="amount">Amount:</label>
+            </div>
+            <div class="col-sm-4">
+                <form:input class="form-control" path="amount" type="number"/>
+            </div>
+            <div class="col-sm-5">
+                <label class="label-warning">${itemValidate.amountLabel}</label>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Save new ingredient</button>
+    </form:form>
+</div>
 </body>
 </html>

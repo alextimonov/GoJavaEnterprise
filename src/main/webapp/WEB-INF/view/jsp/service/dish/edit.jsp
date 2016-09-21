@@ -4,42 +4,77 @@
 <c:set var="pathDish" value="${pageContext.request.contextPath}/Restaurant/service/dish"/>
 <html>
 <head>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bastion|Service|Edit dish</title>
 </head>
 <body>
 
-<h1>Edit existing dish</h1>
-<c:url var="saveUrl" value="${pathDish}/edit?id=${dishExisting.id}"/>
-<form:form modelAttribute="dishExisting" method="POST" action="${saveUrl}">
-    <table>
-        <tr>
-            <td><form:label path="id">ID:</form:label></td>
-            <td><form:input path="id" disabled="true"/></td>
-        </tr>
+<div class="container">
+    <h2>Edit existing dish</h2>
+    <c:url var="saveUrl" value="${pathDish}/edit?id=${dishExisting.id}"/>
 
-        <tr>
-            <td><form:label path="name">Dish name:</form:label></td>
-            <td><form:input path="Name"/></td>
-        </tr>
+    <form:form class="form-horizontal" modelAttribute="dishExisting" method="POST" action="${saveUrl}">
+        <div class="form-group">
+            <div class="col-sm-2">
+                <label class="control-label" for="id">ID</label>
+            </div>
+            <div class="col-sm-4">
+                <form:input class="form-control" path="id" disabled="true"/>
+            </div>
+        </div>
 
-        <tr>
-            <td><form:label path="description">Description: </form:label></td>
-            <td><form:input path="Description"/></td>
-        </tr>
+        <div class="form-group">
+            <div class="col-sm-2">
+                <label class="control-label" for="name">Dish name</label>
+            </div>
+            <div class="col-sm-4">
+                <form:input class="form-control" path="name" type="text"/>
+            </div>
+            <div class="col-sm-4">
+                <label class="label-info">${dishValidate.nameLabel}</label>
+            </div>
+        </div>
 
-        <tr>
-            <td><form:label path="weight">Weight:</form:label></td>
-            <td><form:input path="Weight"/></td>
-        </tr>
+        <div class="form-group">
+            <div class="col-sm-2">
+                <label class="control-label" for="description">Description</label>
+            </div>
+            <div class="col-sm-4">
+                <form:input class="form-control" path="description" type="text"/>
+            </div>
+            <div class="col-sm-4">
+                <label class="label-info">${dishValidate.descriptionLabel}</label>
+            </div>
+        </div>
 
-        <tr>
-            <td><form:label path="cost">Cost: </form:label></td>
-            <td><form:input path="Cost"/></td>
-        </tr>
-    </table>
+        <div class="form-group">
+            <div class="col-sm-2">
+                <label class="control-label" for="weight">Weight</label>
+            </div>
+            <div class="col-sm-4">
+                <form:input class="form-control" path="weight" type="number" min="1" max="1000"/>
+            </div>
+            <div class="col-sm-4">
+                <label class="label-info">${dishValidate.weightLabel}</label>
+            </div>
+        </div>
 
-    <input type="submit" value="Save" />
-</form:form>
+        <div class="form-group">
+            <div class="col-sm-2">
+                <label class="control-label" for="cost">Cost</label>
+            </div>
+            <div class="col-sm-4">
+                <form:input class="form-control" path="cost" type="number" min="0.01" max="1000" step="0.01"/>
+            </div>
+            <div class="col-sm-4">
+                <label class="label-info">${dishValidate.costLabel}</label>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Save changes</button>
+    </form:form>
+</div>
 
 </body>
 </html>
