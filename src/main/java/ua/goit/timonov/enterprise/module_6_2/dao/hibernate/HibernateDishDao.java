@@ -2,22 +2,24 @@ package ua.goit.timonov.enterprise.module_6_2.dao.hibernate;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ua.goit.timonov.enterprise.module_6_2.dao.DishDAO;
 import ua.goit.timonov.enterprise.module_6_2.model.Dish;
 import ua.goit.timonov.enterprise.module_6_2.model.Ingredient;
 import ua.goit.timonov.enterprise.module_6_2.model.IngredientsInDish;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * Hibernate implementation of DishDAO
  */
-public class HibernateDishDao implements DishDAO {
+public class HDishDao implements DishDAO {
 
     private SessionFactory sessionFactory;
-    private JpaCriteriaQueries<Dish> hDaoCriteriaQueries = new JpaCriteriaQueries();
+    private HDaoCriteriaQueries<Dish> hDaoCriteriaQueries = new HDaoCriteriaQueries();
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -90,7 +92,7 @@ public class HibernateDishDao implements DishDAO {
 
     @Transactional
     public List<Ingredient> defineDishIngredients(Dish dish) {
-        JpaCriteriaQueries<IngredientsInDish> hDaoCriteriaQueries = new JpaCriteriaQueries();
+        HDaoCriteriaQueries<IngredientsInDish> hDaoCriteriaQueries = new HDaoCriteriaQueries();
         List<IngredientsInDish> ingredientsInDishes =
                 hDaoCriteriaQueries.searchItemsByValue(sessionFactory, IngredientsInDish.class, "dish", dish);
         return ingredientsInDishes.stream().map(IngredientsInDish::getIngredient).collect(Collectors.toList());

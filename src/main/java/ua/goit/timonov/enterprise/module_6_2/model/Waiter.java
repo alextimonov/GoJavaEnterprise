@@ -1,7 +1,7 @@
 package ua.goit.timonov.enterprise.module_6_2.model;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,10 +13,11 @@ import java.util.List;
  */
 
 @Entity
+@JsonIgnoreType
 public class Waiter extends Employee {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "waiter")
-    @Fetch(FetchMode.SELECT)
+    @JsonIgnore
     private List<Order> orders;
 
     public Waiter() {
@@ -31,6 +32,15 @@ public class Waiter extends Employee {
         job = employee.getJob();
     }
 
+    public Employee getEmployee() {
+        Employee employee = new Employee();
+        employee.append(this.birthday);
+        employee.append(this.name, this.surname);
+        employee.append(this.salary);
+        employee.append(this.job);
+        return employee;
+    }
+
     public List<Order> getOrders() {
         return orders;
     }
@@ -43,5 +53,14 @@ public class Waiter extends Employee {
     public String toString() {
         return "Waiter{" + super.toString() +
                 " \n     orders=" + orders + "} ";
+    }
+
+    public String toStringWithoutOrders() {
+        return "Waiter{" +
+                "id=" + id +
+                ", surname='" + surname + '\'' +
+                ", name='" + name + '\'' +
+                ", job=" + job +
+                '}';
     }
 }

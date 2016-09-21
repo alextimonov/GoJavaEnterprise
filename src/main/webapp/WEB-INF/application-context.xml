@@ -5,14 +5,15 @@
        default-autowire="byName">
 
     <bean id="employeeService" class="ua.goit.timonov.enterprise.module_9.service.EmployeeService"/>
-    <bean id="employeeDAO" class="ua.goit.timonov.enterprise.module_6_2.dao.hibernate.HibernateEmployeeDao"/>
+    <bean id="employeeDAO" class="ua.goit.timonov.enterprise.module_6_2.dao.hibernate.HEmployeeDao"/>
 
     <bean id="dishService" class="ua.goit.timonov.enterprise.module_9.service.DishService"/>
-    <bean id="dishDAO" class="ua.goit.timonov.enterprise.module_6_2.dao.hibernate.HibernateDishDao"/>
+    <bean id="dishDAO" class="ua.goit.timonov.enterprise.module_6_2.dao.hibernate.HDishDao"/>
 
     <bean id="menuService" class="ua.goit.timonov.enterprise.module_9.service.MenuService"/>
-    <bean id="menuDAO" class="ua.goit.timonov.enterprise.module_6_2.dao.hibernate.HibernateMenuDao"/>
+    <bean id="menuDAO" class="ua.goit.timonov.enterprise.module_6_2.dao.hibernate.HMenuDao"/>
+
+    <bean id="orderService" class="ua.goit.timonov.enterprise.module_9.service.OrderService"/>
+    <bean id="orderDAO" class="ua.goit.timonov.enterprise.module_6_2.dao.hibernate.HOrderDao"/>
 
 </beans>
-
-

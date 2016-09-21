@@ -2,6 +2,7 @@ package ua.goit.timonov.enterprise.module_6_2.dao.hibernate;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ua.goit.timonov.enterprise.module_6_2.dao.EmployeeDAO;
 import ua.goit.timonov.enterprise.module_6_2.model.Employee;
@@ -12,16 +13,16 @@ import java.util.List;
 /**
  * Hibernate implementation of EmployeeDao
  */
-public class HibernateEmployeeDao implements EmployeeDAO {
+public class HEmployeeDao implements EmployeeDAO {
 
     private SessionFactory sessionFactory;
-    private JpaCriteriaQueries<Employee> hDaoCriteriaQueries = new JpaCriteriaQueries();
+    private HDaoCriteriaQueries<Employee> hDaoCriteriaQueries = new HDaoCriteriaQueries();
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
-    public void sethDaoCriteriaQueries(JpaCriteriaQueries<Employee> hDaoCriteriaQueries) {
+    public void sethDaoCriteriaQueries(HDaoCriteriaQueries<Employee> hDaoCriteriaQueries) {
         this.hDaoCriteriaQueries = hDaoCriteriaQueries;
     }
 
@@ -99,7 +100,7 @@ public class HibernateEmployeeDao implements EmployeeDAO {
     @Override
     @Transactional
     public List<Waiter> getWaiters() {
-        JpaCriteriaQueries<Waiter> hDaoCriteriaQueries = new JpaCriteriaQueries();
+        HDaoCriteriaQueries<Waiter> hDaoCriteriaQueries = new HDaoCriteriaQueries();
         List<Waiter> waiters = hDaoCriteriaQueries.getAllEntityItems(sessionFactory, Waiter.class);
         return waiters;
     }

@@ -6,11 +6,11 @@
     <artifactId>GoITEnterprise</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>CalcLib</module>
-        <module>AppCalc</module>
-        <module>ToDoList</module>
+        <!--<module>CalcLib</module>-->
+        <!--<module>AppCalc</module>-->
+        <!--<module>ToDoList</module>-->
     </modules>
-    <packaging>pom</packaging>
+    <packaging>war</packaging>
 
     <name>GoITEnterprise</name>
     <url>http://maven.apache.org</url>
@@ -23,13 +23,13 @@
         <postgresqlVersion>9.1-901-1.jdbc4</postgresqlVersion>
         <slf4jVersion>1.7.21</slf4jVersion>
         <logbackVersion>1.1.7</logbackVersion>
-        <comMchangeC3p0Version>0.9.5.2</comMchangeC3p0Version>
+        <c3p0Version>0.9.5.2</c3p0Version>
         <springVersion>4.3.1.RELEASE</springVersion>
         <javaVersion>1.8</javaVersion>
-        <hibernateVersion>5.2.1.Final</hibernateVersion>
-        <hibernateJpaApiVersion>1.0.0.Final</hibernateJpaApiVersion>
+        <hiberVersion>5.2.1.Final</hiberVersion>
         <ehcasheVersion>2.10.2</ehcasheVersion>
         <jstlVersion>1.2</jstlVersion>
+        <jacksonVersion>2.8.2</jacksonVersion>
     </properties>
 
     <dependencies>
@@ -49,46 +49,46 @@
         <dependency>
             <groupId>postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>${postgresqlVersion}</version>
+            <version> ${postgresqlVersion} </version>
         </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>${slf4jVersion}</version>
+            <version> ${slf4jVersion} </version>
         </dependency>
 
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>${logbackVersion}</version>
+            <version> ${logbackVersion} </version>
         </dependency>
 
         <dependency>
             <groupId>com.mchange</groupId>
             <artifactId>c3p0</artifactId>
-            <version>${comMchangeC3p0Version}</version>
+            <version> ${c3p0Version} </version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>${springVersion}</version>
+            <version> ${springVersion} </version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>${springVersion}</version>
+            <version> ${springVersion} </version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-            <version>${springVersion}</version>
+            <version> ${springVersion} </version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>${springVersion}</version>
+            <version> ${springVersion} </version>
         </dependency>
 
         <dependency>
@@ -101,13 +101,13 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>${hibernateVersion}</version>
+            <version>${hiberVersion}</version>
         </dependency>
 
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
-            <version>${hibernateJpaApiVersion}</version>
+            <version>1.0.0.Final</version>
         </dependency>
 
         <dependency>
@@ -119,18 +119,21 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-ehcache</artifactId>
-            <version>${hibernateVersion}</version>
+            <version>${hiberVersion}</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${springVersion}</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <version>${springVersion}</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
@@ -144,6 +147,12 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jacksonVersion}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -154,6 +163,16 @@
                 <configuration>
                     <source>${javaVersion}</source>
                     <target>${javaVersion}</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>
