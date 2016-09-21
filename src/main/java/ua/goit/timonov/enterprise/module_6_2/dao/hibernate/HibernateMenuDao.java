@@ -2,7 +2,6 @@ package ua.goit.timonov.enterprise.module_6_2.dao.hibernate;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ua.goit.timonov.enterprise.module_6_2.dao.MenuDAO;
 import ua.goit.timonov.enterprise.module_6_2.model.Dish;
@@ -13,10 +12,10 @@ import java.util.List;
 /**
  * Hibernate implementation of MenuDao
  */
-public class HMenuDao implements MenuDAO {
+public class HibernateMenuDao implements MenuDAO {
 
     private SessionFactory sessionFactory;
-    private HDaoCriteriaQueries<Menu> hDaoCriteriaQueries = new HDaoCriteriaQueries();
+    private JpaCriteriaQueries<Menu> hDaoCriteriaQueries = new JpaCriteriaQueries();
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;

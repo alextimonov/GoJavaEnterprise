@@ -12,11 +12,11 @@ import java.util.List;
 /**
  * Hibernate implementation of OrderDAO
  */
-public class HOrderDao implements OrderDAO {
+public class HibernateOrderDao implements OrderDAO {
 
     public static final String FIELD_CLOSED = "closed";
     private SessionFactory sessionFactory;
-    private HDaoCriteriaQueries<Order> hDaoCriteriaQueries = new HDaoCriteriaQueries();
+    private JpaCriteriaQueries<Order> hDaoCriteriaQueries = new JpaCriteriaQueries();
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;

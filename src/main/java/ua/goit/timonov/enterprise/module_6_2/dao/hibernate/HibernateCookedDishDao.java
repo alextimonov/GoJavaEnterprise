@@ -12,32 +12,32 @@ import java.util.List;
 /**
  * Hibernate implementation of CookedDishDAO
  */
-public class HCookedDishDao implements CookedDishDAO {
+public class HibernateCookedDishDao implements CookedDishDAO {
 
     private SessionFactory sessionFactory;
-    private HDaoCriteriaQueries<CookedDish> hDaoCriteriaQueries = new HDaoCriteriaQueries();
-    private HOrderDao hOrderDao;
-    private HDishDao hDishDao;
-    private HEmployeeDao hEmployeeDao;
-    private HStorageDao hStorageDao;
+    private JpaCriteriaQueries<CookedDish> hDaoCriteriaQueries = new JpaCriteriaQueries();
+    private HibernateOrderDao hOrderDao;
+    private HibernateDishDao hDishDao;
+    private HibernateEmployeeDao hEmployeeDao;
+    private HibernateStorageDao hStorageDao;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
-    public void sethOrderDao(HOrderDao hOrderDao) {
+    public void sethOrderDao(HibernateOrderDao hOrderDao) {
         this.hOrderDao = hOrderDao;
     }
 
-    public void sethDishDao(HDishDao hDishDao) {
+    public void sethDishDao(HibernateDishDao hDishDao) {
         this.hDishDao = hDishDao;
     }
 
-    public void sethEmployeeDao(HEmployeeDao hEmployeeDao) {
+    public void sethEmployeeDao(HibernateEmployeeDao hEmployeeDao) {
         this.hEmployeeDao = hEmployeeDao;
     }
 
-    public void sethStorageDao(HStorageDao hStorageDao) {
+    public void sethStorageDao(HibernateStorageDao hStorageDao) {
         this.hStorageDao = hStorageDao;
     }
 
@@ -91,7 +91,7 @@ public class HCookedDishDao implements CookedDishDAO {
     // finds list of Ingredients in dish
     @Transactional(propagation = Propagation.MANDATORY)
     private List<IngredientsInDish> searchIngredientsInDishes(Dish dish) {
-        HDaoCriteriaQueries<IngredientsInDish> hDaoCriteriaQueries = new HDaoCriteriaQueries();
+        JpaCriteriaQueries<IngredientsInDish> hDaoCriteriaQueries = new JpaCriteriaQueries();
         return hDaoCriteriaQueries.searchItemsByValue(sessionFactory, IngredientsInDish.class, "dish", dish);
     }
 
