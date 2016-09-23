@@ -62,7 +62,7 @@ public class OrderWebController {
 
     private String getOrderFromDatabase(int orderId) {
         try {
-            Order order = orderService.searhById(orderId);
+            Order order = orderService.getOrder(orderId);
             return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(order);
         }
         catch (RuntimeException | JsonProcessingException e) {

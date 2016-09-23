@@ -34,4 +34,16 @@ public class OrderService {
     public List<Order> filterByDate(Date date) {
         return orderDAO.getOrdersByDate(date);
     }
+
+    public Order getOrder(Integer id) {
+        return orderDAO.search(id);
+    }
+
+    public List<Order> getOpenOrders() {
+        return orderDAO.getOpenOrders();
+    }
+
+    public List<Order> getClosedOrders() {
+        return orderDAO.getClosedOrders();
+    }
 }
