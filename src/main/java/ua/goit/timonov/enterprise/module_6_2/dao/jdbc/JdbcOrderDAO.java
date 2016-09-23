@@ -1,12 +1,9 @@
 package ua.goit.timonov.enterprise.module_6_2.dao.jdbc;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ua.goit.timonov.enterprise.module_6_2.dao.OrderDAO;
-import ua.goit.timonov.enterprise.module_6_2.model.Dish;
-import ua.goit.timonov.enterprise.module_6_2.model.Employee;
-import ua.goit.timonov.enterprise.module_6_2.model.Order;
+import ua.goit.timonov.enterprise.module_6_2.model.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,7 +32,7 @@ public class JdbcOrderDAO implements OrderDAO {
      * @param order      given order
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public void add(Order order) {
         String sql = "INSERT INTO Orders VALUES ((SELECT max(Orders.id) FROM Orders) + 1, ?, ?, ?, false)";
         template.update(sql,
@@ -51,7 +48,7 @@ public class JdbcOrderDAO implements OrderDAO {
      * throws           EmptyResultDataAccessException, DataAccessException
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public Order search(Integer orderId) {
         String sql = "SELECT * FROM Orders WHERE id = ?";
         Map<String, Object> map = template.queryForMap(sql, orderId);
@@ -64,7 +61,7 @@ public class JdbcOrderDAO implements OrderDAO {
      * throws                   EmptyResultDataAccessException, DataAccessException
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public void delete(int orderId) {
         if (orderIsOpen(orderId)) {
             deleteOrder(orderId);
@@ -76,7 +73,7 @@ public class JdbcOrderDAO implements OrderDAO {
     }
 
     // returns true if order (given by its ID) is open
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     private boolean orderIsOpen(int orderId) {
         String sql = "SELECT closed FROM Orders WHERE id = ?";
         Map<String, Object> map = template.queryForMap(sql, orderId);
@@ -85,7 +82,7 @@ public class JdbcOrderDAO implements OrderDAO {
     }
 
     // deletes order from auxiliary table
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     private void deleteOrder(int orderId) {
         String sql = "DELETE FROM Dish_to_orders WHERE order_id = ?; " +
                 "DELETE FROM Orders WHERE id = ?;";
@@ -99,7 +96,7 @@ public class JdbcOrderDAO implements OrderDAO {
      * throws               EmptyResultDataAccessException, DataAccessException
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public void addDish(int orderId, Dish dish) {
         if (orderIsOpen(orderId)) {
             String sql = "INSERT INTO Dish_to_orders VALUES (?, ?)";
@@ -117,7 +114,7 @@ public class JdbcOrderDAO implements OrderDAO {
      * throws               EmptyResultDataAccessException, DataAccessException
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public void deleteDish(int orderId, Dish dish) {
         if (orderIsOpen(orderId)) {
             String sql = "DELETE FROM Dish_to_orders WHERE (order_id = ? AND dish_id =?)";
@@ -133,7 +130,7 @@ public class JdbcOrderDAO implements OrderDAO {
      * @param orderId
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public void setClosed(int orderId) {
         if (orderIsOpen(orderId)) {
             String sql = "UPDATE Orders SET closed = 'TRUE' WHERE id = ?";
@@ -150,11 +147,15 @@ public class JdbcOrderDAO implements OrderDAO {
      * throws           EmptyResultDataAccessException, DataAccessException
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public List<Order> getOpenOrders() {
         String sql = "SELECT * FROM Orders WHERE closed = 'FALSE'";
-        List<Map<String, Object>> mapList = template.queryForList(sql);
+        return getOrdersWithSql(sql);
+    }
 
+    // returns orders from DB with given SQL
+    private List<Order> getOrdersWithSql(String sql) {
+        List<Map<String, Object>> mapList = template.queryForList(sql);
         return mapList.stream()
                 .map(row -> getOrderFromMap(row))
                 .collect(Collectors.toList());
@@ -166,26 +167,47 @@ public class JdbcOrderDAO implements OrderDAO {
      * throws           EmptyResultDataAccessException, DataAccessException
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public List<Order> getClosedOrders() {
         String sql = "SELECT * FROM Orders WHERE closed = 'TRUE'";
-        List<Map<String, Object>> mapList = template.queryForList(sql);
+        return getOrdersWithSql(sql);
+    }
+
+    @Override
+    @Transactional
+    public List<Order> getAllOrders() {
+        String sql = "SELECT * FROM Orders";
+        return getOrdersWithSql(sql);
+    }
+
+    @Override
+    @Transactional
+    public List<Order> getOrdersByTableNumber(int tableNumber) {
+        String sql = "SELECT * FROM Orders WHERE table_number = ?";
+        List<Map<String, Object>> mapList = template.queryForList(sql, tableNumber);
         return mapList.stream()
                 .map(row -> getOrderFromMap(row))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Order> getAllOrders() {
-        String sql = "SELECT * FROM Orders";
-        List<Map<String, Object>> mapList = template.queryForList(sql);
+    @Transactional
+    public List<Order> getOrdersByWaiter(Employee waiter) {
+        String sql = "SELECT * FROM Orders WHERE employee_id = ?";
+        List<Map<String, Object>> mapList = template.queryForList(sql, waiter.getId());
+        return mapList.stream()
+                .map(row -> getOrderFromMap(row))
+                .collect(Collectors.toList());
+    }
 
-        List<Order> result = new ArrayList<>();
-        for (Map<String, Object> row : mapList) {
-            Order order = getOrderFromMap(row);
-            result.add(order);
-        }
-        return result;
+    @Override
+    @Transactional
+    public List<Order> getOrdersByDate(Date date) {
+        String sql = "SELECT * FROM Orders WHERE date = ?";
+        List<Map<String, Object>> mapList = template.queryForList(sql, date);
+        return mapList.stream()
+                .map(row -> getOrderFromMap(row))
+                .collect(Collectors.toList());
     }
 
     private Order getOrderFromMap(Map<String, Object> map) {
@@ -200,13 +222,14 @@ public class JdbcOrderDAO implements OrderDAO {
         return order;
     }
 
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     private List<Dish> findDishesByOrderId(int orderId) {
         String sql = "SELECT Dish.id, Dish.name, Dish.description, Dish.cost, Dish.weight\n" +
                 "FROM (Dish_to_orders INNER JOIN Dish ON Dish_to_orders.dish_id = Dish.id) \n" +
                 "WHERE Dish_to_orders.order_id = ?";
         List<Map<String, Object>> mapList = template.queryForList(sql, orderId);
 
+        List<Dish> result = new ArrayList<>();
         return mapList.stream()
                 .map(row -> jdbcDishDAO.getDishFromMap(row))
                 .collect(Collectors.toList());

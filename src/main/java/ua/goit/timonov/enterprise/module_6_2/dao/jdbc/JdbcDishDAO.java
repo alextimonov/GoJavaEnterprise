@@ -80,6 +80,7 @@ public class JdbcDishDAO implements DishDAO {
     }
 
     @Override
+    @Transactional
     public void update(Dish dish) {
         String sql = "UPDATE Dish SET name = ?, description = ?, cost = ?, weight = ? WHERE id = ?";
         template.update(sql, dish.getName(), dish.getDescription(), dish.getCost(), dish.getWeight(), dish.getId());

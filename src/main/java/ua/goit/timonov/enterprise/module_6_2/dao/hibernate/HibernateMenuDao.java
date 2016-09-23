@@ -104,9 +104,10 @@ public class HibernateMenuDao implements MenuDAO {
         }
         else {
             Session session = sessionFactory.getCurrentSession();
-            session.delete(menu);
-            menu.getDishes().add(dish);
-            session.save(menu);
+            List <Dish> dishes = menu.getDishes();
+            dishes.add(dish);
+            menu.setDishes(dishes);
+            session.update("Menu", menu);
         }
     }
 
@@ -120,11 +121,12 @@ public class HibernateMenuDao implements MenuDAO {
     @Transactional
     public void deleteDish(Menu menu, Dish dish) {
         Session session = sessionFactory.getCurrentSession();
-        session.delete(menu);
-        if (!menu.getDishes().remove(dish)) {
+        List <Dish> dishes = menu.getDishes();
+        if (!dishes.remove(dish)) {
             throw new IllegalArgumentException("Menu " + menu.getName() + " does not contain dish " + dish.getName());
         }
-        session.save(menu);
+        menu.setDishes(dishes);
+        session.update("Menu", menu);
     }
 
     @Override

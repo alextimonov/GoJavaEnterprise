@@ -34,4 +34,9 @@ public class MainController {
         return CONTACTS_PAGE;
     }
 
+    @RequestMapping(value = "/todo", method = RequestMethod.GET)
+    public String getPageTodo() {
+        return "todo";
+    }
+
 }

@@ -10,7 +10,7 @@
     <tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/>
 
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <!--<property name="location" value="classpath:jdbc.properties"/>-->
+        <!--<property startChars="location" value="classpath:jdbc.properties"/>-->
         <property name="location" value="WEB-INF/jdbc.properties"/>
     </bean>
 

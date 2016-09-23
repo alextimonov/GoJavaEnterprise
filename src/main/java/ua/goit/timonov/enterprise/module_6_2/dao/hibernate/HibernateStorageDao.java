@@ -1,5 +1,6 @@
 package ua.goit.timonov.enterprise.module_6_2.dao.hibernate;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 import ua.goit.timonov.enterprise.module_6_2.dao.StorageDAO;
@@ -14,7 +15,7 @@ public class HibernateStorageDao implements StorageDAO {
 
     public static final String FIELD_AMOUNT = "amount";
     private SessionFactory sessionFactory;
-    private JpaCriteriaQueries<Ingredient> hDaoCriteriaQueries = new JpaCriteriaQueries();
+    private JpaCriteriaQueries<Ingredient> jpaCriteriaQueries = new JpaCriteriaQueries();
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -28,7 +29,7 @@ public class HibernateStorageDao implements StorageDAO {
     @Override
     @Transactional
     public List<Ingredient> getAll() {
-        return hDaoCriteriaQueries.getAllEntityItems(sessionFactory, Ingredient.class);
+        return jpaCriteriaQueries.getAllEntityItems(sessionFactory, Ingredient.class);
     }
 
     /**
@@ -50,19 +51,19 @@ public class HibernateStorageDao implements StorageDAO {
     @Override
     @Transactional
     public Ingredient search(int id) {
-        return hDaoCriteriaQueries.searchItemById(sessionFactory, Ingredient.class, id);
+        return jpaCriteriaQueries.searchItemById(sessionFactory, Ingredient.class, id);
     }
 
     /**
-     * searches ingredient in DB by name
-     * @param name       name of ingredient to find
+     * searches ingredient in DB by startChars
+     * @param name       startChars of ingredient to find
      * @return           found ingredient
      * throws            EmptyResultDataAccessException, DataAccessException
      */
     @Override
     @Transactional
     public Ingredient search(String name) {
-        return hDaoCriteriaQueries.searchItemByName(sessionFactory, Ingredient.class, name);
+        return jpaCriteriaQueries.searchItemByName(sessionFactory, Ingredient.class, name);
     }
 
     /**
@@ -78,8 +79,8 @@ public class HibernateStorageDao implements StorageDAO {
     }
 
     /**
-     * deletes ingredient from DB by its name
-     * @param name           name of ingredient to delete
+     * deletes ingredient from DB by its startChars
+     * @param name           startChars of ingredient to delete
      * throws                EmptyResultDataAccessException, DataAccessException
      */
     @Override
@@ -100,7 +101,7 @@ public class HibernateStorageDao implements StorageDAO {
     public void changeAmount(Ingredient ingredient, int difference) {
         int newAmount = ingredient.getAmount() + difference;
 
-        hDaoCriteriaQueries.updateValue(sessionFactory, Ingredient.class, ingredient.getId(), FIELD_AMOUNT, newAmount);
+        jpaCriteriaQueries.updateValue(sessionFactory, Ingredient.class, ingredient.getId(), FIELD_AMOUNT, newAmount);
     }
 
     /**
@@ -111,6 +112,23 @@ public class HibernateStorageDao implements StorageDAO {
     @Override
     @Transactional
     public List<Ingredient> getTerminatingIngredients(int limit) {
-        return hDaoCriteriaQueries.getItemsLimitedByMaxValue(sessionFactory, Ingredient.class, limit);
+        return jpaCriteriaQueries.getItemsLimitedByMaxValue(sessionFactory, Ingredient.class, limit);
+    }
+
+    /**
+     * updates ingredient's data in DB
+     * @param ingredient      given ingredient with data
+     */
+    @Override
+    @Transactional
+    public void update(Ingredient ingredient) {
+        Session session = sessionFactory.getCurrentSession();
+        session.update("Ingredient", ingredient);
+    }
+
+    @Override
+    @Transactional
+    public List<Ingredient> filterWithStartChars(String startChars) {
+        return jpaCriteriaQueries.getItemsStartWithChars(sessionFactory, Ingredient.class, "name", startChars);
     }
 }

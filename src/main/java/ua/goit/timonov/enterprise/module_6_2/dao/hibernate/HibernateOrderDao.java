@@ -2,12 +2,13 @@ package ua.goit.timonov.enterprise.module_6_2.dao.hibernate;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ua.goit.timonov.enterprise.module_6_2.dao.OrderDAO;
 import ua.goit.timonov.enterprise.module_6_2.model.Dish;
+import ua.goit.timonov.enterprise.module_6_2.model.Employee;
 import ua.goit.timonov.enterprise.module_6_2.model.Order;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,7 +30,7 @@ public class HibernateOrderDao implements OrderDAO {
      * throws           EmptyResultDataAccessException, DataAccessException
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public List<Order> getOpenOrders() {
         return jpaCriteriaQueries.getAllTypedOrders(sessionFactory, Order.class, false);
     }
@@ -40,11 +41,16 @@ public class HibernateOrderDao implements OrderDAO {
      * throws           EmptyResultDataAccessException, DataAccessException
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public List<Order> getClosedOrders() {
         return jpaCriteriaQueries.getAllTypedOrders(sessionFactory, Order.class, true);
     }
 
+    /**
+     * finds list of all orders in DB
+     * @return          list of all orders
+     * throws           EmptyResultDataAccessException, DataAccessException
+     */
     @Override
     @Transactional
     public List<Order> getAllOrders() {
@@ -52,11 +58,34 @@ public class HibernateOrderDao implements OrderDAO {
     }
 
     /**
+     * returns orders in DB with given table number
+     * @param tableNumber       give table number
+     * @return                  list of orders
+     */
+    @Override
+    @Transactional
+    public List<Order> getOrdersByTableNumber(int tableNumber) {
+        return jpaCriteriaQueries.searchItemsByValue(sessionFactory, Order.class, "tableNumber", tableNumber);
+    }
+
+    @Override
+    @Transactional
+    public List<Order> getOrdersByWaiter(Employee waiter) {
+        return jpaCriteriaQueries.searchItemsByValue(sessionFactory, Order.class, "waiter", waiter);
+    }
+
+    @Override
+    @Transactional
+    public List<Order> getOrdersByDate(Date date) {
+        return jpaCriteriaQueries.searchItemsByValue(sessionFactory, Order.class, "date", date);
+    }
+
+    /**
      * adds new order to DB
      * @param order      given order
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public void add(Order order) {
         Session session = sessionFactory.getCurrentSession();
         session.save(order);
@@ -69,7 +98,7 @@ public class HibernateOrderDao implements OrderDAO {
      * throws           EmptyResultDataAccessException, DataAccessException
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public Order search(Integer orderId) {
         return jpaCriteriaQueries.searchItemById(sessionFactory, Order.class, orderId);
     }
@@ -80,7 +109,7 @@ public class HibernateOrderDao implements OrderDAO {
      * throws                   EmptyResultDataAccessException, DataAccessException
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public void delete(int orderId) {
         if (orderIsClosed(orderId)) {
             throw new IllegalArgumentException("Order is not open");
@@ -90,7 +119,7 @@ public class HibernateOrderDao implements OrderDAO {
     }
 
     // returns true if order (given by its ID) is open
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     boolean orderIsClosed(int orderId) {
         Order order = jpaCriteriaQueries.searchItemById(sessionFactory, Order.class, orderId);
         return order.getClosed();
@@ -103,7 +132,7 @@ public class HibernateOrderDao implements OrderDAO {
      * throws               EmptyResultDataAccessException, DataAccessException
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public void addDish(int orderId, Dish dish) {
         if (orderIsClosed(orderId)) {
             throw new IllegalArgumentException("Order is not open");
@@ -123,7 +152,7 @@ public class HibernateOrderDao implements OrderDAO {
      * throws               EmptyResultDataAccessException, DataAccessException
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public void deleteDish(int orderId, Dish dish) {
         if (orderIsClosed(orderId)) {
             throw new IllegalArgumentException("Order is not open");
@@ -143,7 +172,7 @@ public class HibernateOrderDao implements OrderDAO {
      * @param orderId
      */
     @Override
-    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional
     public void setClosed(int orderId) {
         if (orderIsClosed(orderId)) {
             throw new IllegalArgumentException("Order is not open");

@@ -99,4 +99,16 @@ public class JpaCriteriaQueries<T> {
         TypedQuery<T> typedQuery = session.createQuery(select);
         return typedQuery.getResultList();
     }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public List<T> getItemsStartWithChars(SessionFactory sessionFactory, Class<T> clazz, String fieldName, String startChars) {
+        Session session = sessionFactory.getCurrentSession();
+        CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+        CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(clazz);
+        Root<T> from = criteriaQuery.from(clazz);
+        CriteriaQuery<T> select = criteriaQuery.select(from);
+        select.where(criteriaBuilder.like(from.get(fieldName), startChars+"%"));
+        TypedQuery<T> typedQuery = session.createQuery(select);
+        return typedQuery.getResultList();
+    }
 }

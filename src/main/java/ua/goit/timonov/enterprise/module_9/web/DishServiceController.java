@@ -15,6 +15,7 @@ import java.util.Map;
  * Created by Alex on 14.09.2016.
  */
 @Controller
+@RequestMapping("/service/dish")
 public class DishServiceController {
 
     private DishService dishService;
@@ -24,59 +25,57 @@ public class DishServiceController {
         this.dishService = dishService;
     }
 
-    @RequestMapping(value = "/service/dishes", method = RequestMethod.GET)
+    @RequestMapping(value = "/dishes", method = RequestMethod.GET)
     public String getAllDishes(Map<String, Object> model) {
         model.put("dishes", dishService.getAllDishes());
-        return "service/dishes";
+        return "service/dish/dishes";
     }
 
-    @RequestMapping(value = "/dish/add", method = RequestMethod.GET)
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String getDishToAdd(Map<String, Object> model) {
         model.put("dishAttribute", new Dish());
-        return "dish/add";
+        return "service/dish/add";
     }
 
-    @RequestMapping(value = "/dish/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String addDish(Map<String, Object> model, @ModelAttribute("dishAttribute") Dish dish) {
         dishService.add(dish);
         model.put("dishes", dishService.getAllDishes());
-        return "service/dishes";
+        return "service/dish/dishes";
     }
 
-    @RequestMapping(value = "/dish/deleteById", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
     public String deleteDishById(Map<String, Object> model, @RequestParam(value="id", required=true) Integer dishId) {
         dishService.delete(dishId);
         model.put("dishes", dishService.getAllDishes());
-        return "service/dishes";
+        return "service/dish/dishes";
     }
 
-    @RequestMapping(value = "/dish/deleteByName", method = RequestMethod.GET)
+    @RequestMapping(value = "/deleteByName", method = RequestMethod.GET)
     public String deleteDishByName(Map<String, Object> model, @RequestParam(value="name", required=true) String dishName) {
         dishService.delete(dishName);
         model.put("dishes", dishService.getAllDishes());
-        return "service/dishes";
+        return "service/dish/dishes";
     }
 
-    @RequestMapping(value = "/dish/editById", method = RequestMethod.GET)
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String editDishById(Map<String, Object> model, @RequestParam(value="id", required=true) Integer id) {
         Dish dish = dishService.searchDishById(id);
         model.put("dishExisting", dish);
-        return "dish/edit";
+        return "service/dish/edit";
     }
 
-    @RequestMapping(value = "/dish/editByName", method = RequestMethod.GET)
+    @RequestMapping(value = "/editByName", method = RequestMethod.GET)
     public String editDishByName(Map<String, Object> model, @RequestParam(value="name", required=true) String name) {
         Dish dish = dishService.searchDishByName(name);
         model.put("dishExisting", dish);
-        return "dish/edit";
+        return "service/dish/edit";
     }
 
-    @RequestMapping(value = "/dish/edit", method = RequestMethod.POST)
-    public String saveEditDish(Map<String, Object> model, @ModelAttribute("dishAttribute") Dish dish,
-                               @RequestParam(value="id", required=true) Integer id) {
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public String saveEditDish(Map<String, Object> model, @ModelAttribute("dishAttribute") Dish dish) {
         dishService.update(dish);
         model.put("dishes", dishService.getAllDishes());
-        return "service/dishes";
+        return "service/dish/dishes";
     }
-
 }
