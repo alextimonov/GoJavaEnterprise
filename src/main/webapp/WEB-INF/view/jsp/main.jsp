@@ -1,27 +1,53 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<c:set var="pathDish" value="${pageContext.request.contextPath}/Restaurant"/>
+<c:set var="path" value="${pageContext.request.contextPath}/Restaurant"/>
 
 <html>
 <head>
-    <title>My Restaurant</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Restaurant Bastion</title>
 </head>
 <body>
-<h2>Restaurant Bastion <small>We make your free time unforgettable</small></h2>
-<h4>Kyiv, Blvd. Buchmy, 10. Tel. 123-45-67, E-mail:bastion@bastion.kiev.ua</h4>
-<img src="${pageContext.request.contextPath}/images/photo_inside.jpg" />
-<br>
-<form action="${pathDish}/searchDish" method="GET">
-    <h4>Input dish's name to search:</h4>
-    <input type="text" name="dishName">
-    <input type="submit" value="Search" >
-</form>
-<a href="${pathDish}/main">Main page</a> |
-<a href="${pathDish}/menus">Our menus</a> |
-<a href="${pathDish}/findDishByName">Find your favorite dish</a> |
-<a href="${pathDish}/scheme">Restaurant's scheme</a> |
-<a href="${pathDish}/contacts">Contacts</a> |
-<a href="${pathDish}/waiters">Our Waiters</a> |
-<a href="${pathDish}/employees">Our personal</a>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="${path}/main">Restaurant Bastion</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="${path}/main">Home</a></li>
+            <li><a href="${path}/menus">Menus</a></li>
+            <li><a href="${path}/dishes">Dishes</a></li>
+            <li><a href="${path}/scheme">Scheme</a></li>
+            <li><a href="${path}/contacts">Contacts</a></li>
+            <li><a href="${path}/waiters">Waiters</a></li>
+            <li><a href="${path}/employees">Personal</a></li>
+            <li><a href="${path}/service/service">Service pages</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <form class="form-horizontal">
+        <h2>Restaurant Bastion<small> We make your free time unforgettable</small></h2>
+        <h4>Kyiv, Blvd. Buchmy, 10. Tel. 123-45-67, E-mail:bastion@bastion.kiev.ua</h4>
+        <img src="${pageContext.request.contextPath}/images/photo_inside.jpg" class="img-rounded"/>
+    </form>
+    <hr>
+    <form class="form-horizontal" action="${path}/searchDish" method="GET">
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label class="control-label">Find your favorite dish:</label>
+            </div>
+            <div class="col-sm-4">
+                <input class="form-control" type="text" name="dishName" title="input dish name">
+            </div>
+            <div class="col-sm-5">
+                <button class="btn btn-primary" type="submit">Search!</button>
+            </div>
+        </div>
+    </form>
+</div>
+
 </body>
 </html>

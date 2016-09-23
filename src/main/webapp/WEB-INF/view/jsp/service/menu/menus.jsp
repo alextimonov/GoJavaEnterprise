@@ -14,89 +14,115 @@
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="${pathService}/../main">Bastion</a>
-            <a class="navbar-brand" href="${pathService}">Service pages</a>
-            <a class="navbar-brand" href="${pathService}/employee/employees">Personal</a>
-            <a class="navbar-brand" href="${pathService}/menu/menus">Menus</a>
-            <a class="navbar-brand" href="${pathService}/dish/dishes">Dishes</a>
-            <a class="navbar-brand" href="${pathService}/storage/ingredients">Storage</a>
-            <a class="navbar-brand" href="${pathService}/order/orders">Orders</a>
+            <a class="navbar-brand" href="${pathService}/../main">Restaurant Bastion</a>
         </div>
+        <ul class="nav navbar-nav">
+            <li><a href="${pathService}/service">Service page</a></li>
+            <li><a href="${pathService}/employee/employees">Personal</a></li>
+            <li class="active"><a href="${pathService}/menu/menus">Menus</a></li>
+            <li><a href="${pathService}/dish/dishes">Dishes</a></li>
+            <li><a href="${pathService}/storage/ingredients">Storage</a></li>
+            <li><a href="${pathService}/order/orders">Orders</a></li>
+        </ul>
     </div>
 </nav>
 
 <div class="container">
     <h2>Menus<small> Service page</small></h2>
-</div>
 
-<table class="table table-striped">
-    <c:url var="addUrl" value="${pathMenu}/add" />
-    <tr>
-        <th>ID</th>
-        <th>Menu name</th>
-        <th>Edit</th>
-        <th>Delete</th>
-        <th>Add menu</th>
-    </tr>
+    <table class="table table-striped">
+        <c:url var="addUrl" value="${pathMenu}/add" />
+        <tr>
+            <th>ID</th>
+            <th>Menu name</th>
+            <th>Edit</th>
+            <th>Delete</th>
+            <th>Add menu</th>
+        </tr>
+
+        <c:forEach var="menu" items="${menus}">
+            <c:url var="editUrl" value="${pathMenu}/edit?id=${menu.id}" />
+                <c:url var="deleteUrl" value="${pathMenu}/delete?id=${menu.id}" />
+            <tr>
+                <td>${menu.id}</td>
+                <td>${menu.name}</td>
+                <td><a href="${editUrl}">Edit</a></td>
+                <td><a href="${deleteUrl}">Delete</a></td>
+                <td><a href="${addUrl}">Add</a></td>
+            </tr>
+        </c:forEach>
+    </table>
+
+    <form class="form-horizontal" action="${pathMenu}/add" method="GET">
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label class="control-label">Add new menu</label>
+            </div>
+            <div class="col-sm-4"></div>
+            <div class="col-sm-5">
+                <button class="btn btn-primary" type="submit">Add new menu</button>
+            </div>
+        </div>
+    </form>
+
+    <form class="form-horizontal" action="${pathMenu}/edit" method="GET">
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label class="control-label">Edit. Input menu's ID:</label>
+            </div>
+            <div class="col-sm-4">
+                <input class="form-control" type="number" name="id" title="id">
+            </div>
+            <div class="col-sm-5">
+                <button class="btn btn-primary" type="submit">Edit by id</button>
+            </div>
+        </div>
+    </form>
+
+    <form class="form-horizontal" action="${pathMenu}/editByName" method="GET">
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label class="control-label">Edit. Input menu's name:</label>
+            </div>
+            <div class="col-sm-4">
+                <input class="form-control" type="text" name="name" title="name">
+            </div>
+            <div class="col-sm-5">
+                <button class="btn btn-primary" type="submit">Edit by name</button>
+            </div>
+        </div>
+    </form>
+
+    <form class="form-horizontal" action="${pathMenu}/delete" method="GET">
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label class="control-label">Delete. Input menu's ID:</label>
+            </div>
+            <div class="col-sm-4">
+                <input class="form-control" type="number" name="id" title="id">
+            </div>
+            <div class="col-sm-5">
+                <button class="btn btn-primary" type="submit">Delete by id</button>
+            </div>
+        </div>
+    </form>
+
+    <form class="form-horizontal" action="${pathMenu}/deleteByName" method="GET">
+        <div class="form-group">
+            <div class="col-sm-3">
+                <label class="control-label">Delete. Input menu's name:</label>
+            </div>
+            <div class="col-sm-4">
+                <input class="form-control" type="text" name="name" title="name">
+            </div>
+            <div class="col-sm-5">
+                <button class="btn btn-primary" type="submit">Delete by name</button>
+            </div>
+        </div>
+    </form>
 
     <c:forEach var="menu" items="${menus}">
-        <c:url var="editUrl" value="${pathMenu}/edit?id=${menu.id}" />
-        <c:url var="deleteUrl" value="${pathMenu}/delete?id=${menu.id}" />
-    <tr>
-        <td>${menu.id}</td>
-        <td>${menu.name}</td>
-        <td><a href="${editUrl}">Edit</a></td>
-        <td><a href="${deleteUrl}">Delete</a></td>
-        <td><a href="${addUrl}">Add</a></td>
-    </tr>
-    </c:forEach>
-</table>
-
-<table class="table table-striped">
-    <tr>
-        <form action="${pathMenu}/add" method="GET">
-            <td>Add</td>
-            <td></td>
-            <td><input type="submit" value="Add new menu"></td>
-        </form>
-    </tr>
-
-    <tr>
-        <form action="${pathMenu}/edit" method="GET">
-            <td>Edit. Input menu's ID:</td>
-            <td><input type="number" name="id"></td>
-            <td><input type="submit" value="Edit by id" ></td>
-        </form>
-    </tr>
-
-    <tr>
-        <form action="${pathMenu}/editByName" method="GET">
-            <td>Edit. Input menu's name:</td>
-            <td><input type="text" name="name"></td>
-            <td><input type="submit" value="Edit by name"></td>
-        </form>
-    </tr>
-
-    <tr>
-        <form action="${pathMenu}/delete" method="GET">
-            <td>Delete. Input menu's ID:</td>
-            <td><input type="number" name="id"></td>
-            <td><input type="submit" value="Delete by id"></td>
-        </form>
-    </tr>
-
-    <tr>
-        <form action="${pathMenu}/deleteByName" method="GET">
-            <td>Delete. Input menu's name:</td>
-            <td><input type="text" name="name"></td>
-            <td><input type="submit" value="Delete by name"></td>
-        </form>
-    </tr>
-</table>
-
-<div class="container">
-    <c:forEach var="menu" items="${menus}">
-        <h4>Menu ${menu.name} (id=${menu.id})</h4>
+        <h3>Menu ${menu.name} (id=${menu.id})</h3>
         <table class="table table-striped">
             <tr>
                 <th> ID </th>
@@ -113,21 +139,22 @@
                 </tr>
             </c:forEach>
         </table>
-        <br>
     </c:forEach>
 </div>
 
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="${pathService}/../main">Bastion</a>
-            <a class="navbar-brand" href="${pathService}">Service pages</a>
-            <a class="navbar-brand" href="${pathService}/employee/employees">Personal</a>
-            <a class="navbar-brand" href="${pathService}/menu/menus">Menus</a>
-            <a class="navbar-brand" href="${pathService}/dish/dishes">Dishes</a>
-            <a class="navbar-brand" href="${pathService}/storage/ingredients">Storage</a>
-            <a class="navbar-brand" href="${pathService}/order/orders">Orders</a>
+            <a class="navbar-brand" href="${pathService}/../main">Restaurant Bastion</a>
         </div>
+        <ul class="nav navbar-nav">
+            <li><a href="${pathService}/service">Service page</a></li>
+            <li><a href="${pathService}/employee/employees">Personal</a></li>
+            <li class="active"><a href="${pathService}/menu/menus">Menus</a></li>
+            <li><a href="${pathService}/dish/dishes">Dishes</a></li>
+            <li><a href="${pathService}/storage/ingredients">Storage</a></li>
+            <li><a href="${pathService}/order/orders">Orders</a></li>
+        </ul>
     </div>
 </nav>
 

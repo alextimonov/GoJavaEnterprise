@@ -4,32 +4,52 @@
 <c:set var="pathStorage" value="${pageContext.request.contextPath}/Restaurant/service/storage"/>
 <html>
 <head>
-    <title>Bastion|Service|Edit new dish</title>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bastion|Service|Edit ingredient</title>
 </head>
 <body>
 
-<h2>Edit existing ingredient</h2>
-<c:url var="saveUrl" value="${pathStorage}/edit?id=${ingredient.id}"/>
-<form:form modelAttribute="ingredient" method="POST" action="${saveUrl}">
-    <table>
-        <tr>
-            <td><form:label path="id">ID:</form:label></td>
-            <td><form:input path="id" disabled="true"/></td>
-        </tr>
+<div class="container">
+    <h2>Edit existing ingredient</h2>
+    <c:url var="saveUrl" value="${pathStorage}/edit?id=${ingredient.id}"/>
+    <form:form class="form-horizontal" modelAttribute="ingredient" method="POST" action="${saveUrl}">
 
-        <tr>
-            <td><form:label path="name">Ingredient name:</form:label></td>
-            <td><form:input path="Name"/></td>
-        </tr>
+        <div class="form-group">
+            <div class="col-sm-2">
+                <label class="control-label" for="id">ID</label>
+            </div>
+            <div class="col-sm-4">
+                <form:input class="form-control" path="id" disabled="true"/>
+            </div>
+        </div>
 
-        <tr>
-            <td><form:label path="amount">Amount:</form:label></td>
-            <td><form:input path="Amount"/></td>
-        </tr>
-    </table>
+        <div class="form-group">
+            <div class="col-sm-2">
+                <label class="control-label" for="name">Ingredient name</label>
+            </div>
+            <div class="col-sm-4">
+                <form:input class="form-control" path="name" type="text"/>
+            </div>
+            <div class="col-sm-4">
+                <label class="label-warning">${itemValidate.nameLabel}</label>
+            </div>
+        </div>
 
-    <input type="submit" value="Save changes" />
-</form:form>
+        <div class="form-group">
+            <div class="col-sm-2">
+                <label class="control-label" for="amount">Amount</label>
+            </div>
+            <div class="col-sm-4">
+                <form:input class="form-control" path="amount" type="text"/>
+            </div>
+            <div class="col-sm-4">
+                <label class="label-warning">${itemValidate.amountLabel}</label>
+            </div>
+        </div>
 
+        <button class="btn btn-primary" type="submit">Save changes</button>
+    </form:form>
+</div>
 </body>
 </html>

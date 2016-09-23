@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import ua.goit.timonov.enterprise.module_6_2.exceptions.NoItemInDbException;
 import ua.goit.timonov.enterprise.module_6_2.model.Employee;
 import ua.goit.timonov.enterprise.module_9.service.EmployeeService;
 import ua.goit.timonov.enterprise.module_9.service.OrderService;
@@ -26,6 +27,9 @@ public class OrderServiceController {
 
     public static final String ITEMS = "orders";
     public static final String PATH_ORDERS = "service/order/orders";
+    public static final String PATH_DISHES = "service/order/dishesInOrder";
+    public static final String PATH_ERROR = "service/errorMessage";
+    public static final String ERROR_MESSAGE = "errorMessage";
 
     private OrderService orderService;
     private EmployeeService employeeService;
@@ -46,11 +50,16 @@ public class OrderServiceController {
         return PATH_ORDERS;
     }
 
-//    @RequestMapping(value = "/dishes", method = RequestMethod.GET)
-//    public String getOrderDishes(Map<String, Object> model, @RequestParam(value="order", required=true) Integer id) {
-//        Order order = orderService.getOrder(id);
-//        model.put("dishes", order.getDishes());
-//        return PATH_ORDERS;
+    @RequestMapping(value = "/dishes", method = RequestMethod.GET)
+    public String getOrderDishes(Map<String, Object> model, @RequestParam(value="order", required=true) Integer id) {
+        model.put("order", orderService.getOrder(id));
+        return PATH_DISHES;
+    }
+
+//    @RequestMapping(value = "/dishes")
+//    public String getOrderDishes2(Map<String, Object> model, @RequestParam(value="order", required=true) Integer id) {
+//        model.put("order", orderService.getOrder(id));
+//        return PATH_DISHES;
 //    }
 
     @RequestMapping(value = "/filterByDate", method = RequestMethod.GET)
@@ -61,9 +70,14 @@ public class OrderServiceController {
 
     @RequestMapping(value = "/filterByWaiter", method = RequestMethod.GET)
     public String filterByName(Map<String, Object> model, @RequestParam(value="waiterName", required=true) String waiterName) {
-        Employee waiter = employeeService.getEmployeeByName(waiterName);
-        model.put(ITEMS, orderService.filterByWaiter(waiter));
-        return PATH_ORDERS;
+        try {
+            Employee waiter = employeeService.getEmployeeByName(waiterName);
+            model.put(ITEMS, orderService.filterByWaiter(waiter));
+            return PATH_ORDERS;
+        } catch (NoItemInDbException e) {
+            model.put(ERROR_MESSAGE, e.getMessage());
+            return PATH_ERROR;
+        }
     }
 
     @RequestMapping(value = "/filterByTableNumber", method = RequestMethod.GET)
@@ -74,7 +88,7 @@ public class OrderServiceController {
 
     @InitBinder
     public final void initBinderUsuariosFormValidator(final WebDataBinder binder, final Locale locale) {
-        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", locale);
+        final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", locale);
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
 
