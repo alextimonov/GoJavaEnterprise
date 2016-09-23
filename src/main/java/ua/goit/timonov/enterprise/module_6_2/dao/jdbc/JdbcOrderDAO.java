@@ -233,8 +233,5 @@ public class JdbcOrderDAO implements OrderDAO {
         return mapList.stream()
                 .map(row -> jdbcDishDAO.getDishFromMap(row))
                 .collect(Collectors.toList());
-        return mapList.stream()
-                .map(row -> jdbcDishDAO.getDishFromMap(row))
-                .collect(Collectors.toList());
     }
 }
